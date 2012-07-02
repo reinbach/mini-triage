@@ -3,7 +3,9 @@ import uuid
 
 from flask import Flask, render_template, redirect, url_for
 from gevent.pywsgi import WSGIServer
+from socketio.server import SocketIOServer
 
+import eventio
 from models import EventHandler, User
 
 app = Flask(__name__)
@@ -31,8 +33,15 @@ def main():
     # Setup server to handle webserver requests
     http_server = WSGIServer(('', 8000), app)
 
+    eventio_server = SocketIOServer(
+        ('', 9999), eventio.EventIOApp(),
+        namespace='socket.io',
+        policy_server=False
+    )
+
     gevent.joinall([
-        gevent.spawn(http_server.serve_forever)
+        gevent.spawn(http_server.serve_forever),
+        gevent.spawn(eventio_server.serve_forever),
     ])
 
 if __name__ == "__main__":

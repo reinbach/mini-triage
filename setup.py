@@ -3,6 +3,7 @@ from setuptools import setup
 
 requires = [
     'gevent==0.13.7',
+    'gevent-socketio==0.3.5-beta',
     'Flask==0.8',
     'pyzmq==2.2.0',
 ]
