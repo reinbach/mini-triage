@@ -15,10 +15,15 @@ Flow
 ----
 
 1. User registers.
+
 2.a. User Triages. User categorizes incoming events.
+
 2.b. User signs up for specific categories.
+
  -- Able to view events assigned to these categories.
+
  -- "Work" the events. In this app, "working" means user can change status and/or add comments to the event.
+
 3. Manage categories.
 
 
