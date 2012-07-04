@@ -15,20 +15,24 @@
       <div class="navbar-inner">
 	<div class="container">
 	  <a class="brand" href="/">Mini Triage</a>
+	  <ul class="nav pull-right">
+            <li><a href="#"><span id="conn_status" class="label">Not Connected</span></a></li>
+	  </ul>
 	</div>
       </div>
     </div>
     <div class="container">
       <section id="events">
         <div class="page-header">
-   	  <h2>Incoming Events</h2>
+   	  <h1>Events</h1>
         </div>
 	<div class="row">
-	  <div class="span12">
-            <div id="conn_status">Not Connected</div>
-            <div id="placeholder" style="width: 600px; height: 300px;">
+	  <div class="span3">
+	    <h2>Incoming</h2>
+
+            <div id="placeholder">
 	      {% for event_id, event in events.iteritems() %}
-	          <div>{{ event.message }}</div>
+	          <div id="{{ event.uid }}" class="well">{{ event.message }}</div>
 	      {% endfor %}
 	    </div>
 	  </div>
