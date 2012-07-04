@@ -20,7 +20,7 @@ def event_producer():
     while True:
         # randomly select event message
         random_event_message = random.sample(EVENT_MESSAGES, 1)[0]
-        random_time_delay = random.randint(1, 5)
+        random_time_delay = random.randint(5, 10)
         socket.send(json.dumps(dict(message=random_event_message)))
         print "Sent message: {0}".format(random_event_message)
         time.sleep(random_time_delay)
