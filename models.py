@@ -14,11 +14,14 @@ class Event(object):
     STATUSES = ['New', 'Closed', 'Hold', 'Working']
 
     def __init__(self, message):
-        self.uid = uuid.uuid1()
+        self.uid = u"{0}".format(uuid.uuid1())
         self.message = message
         self.category = None
         self.status = 'New'
         self.comments = []
+
+    def __repr__(self):
+        return u"{0}".format(self.uid)
 
     def set_id(self, event_id):
         self.uid = event_id
@@ -60,14 +63,16 @@ class EventHandler(object):
 
     def add(self, data):
         """Add new event and inform users"""
-        new_event = Event(data)
+        msg = json.loads(data).get('message')
+        new_event = Event(msg)
         self.events[new_event.uid] = new_event
-        for user in self.users:
-            user.queue.put_nowait(json.dumps(new_event))
+        return new_event
 
     def update(self, event_id, data):
         """Update specific event and inform users"""
-        self.events[event_id].update(data)
+        event = self.events[event_id]
+        event.update(data)
+        return event
 
     def subscribe(self, user):
         """User subscribes to a category"""

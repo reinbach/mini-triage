@@ -27,14 +27,14 @@ def triage(uid):
     # Make sure user has uuid, otherwise redirect to home
     if not users.get(uid, False):
         return redirect(url_for("home"))
-    return render_template("index.html", data=event_handler, uid=uid)
+    return render_template("index.html", events=event_handler.events, uid=uid)
 
 def main():
     # Setup server to handle webserver requests
     http_server = WSGIServer(('', 8000), app)
 
     eventio_server = SocketIOServer(
-        ('', 9999), eventio.EventIOApp(),
+        ('', 9999), eventio.EventIOApp(event_handler),
         namespace='socket.io',
         policy_server=False
     )

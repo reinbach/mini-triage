@@ -5,10 +5,17 @@ $(function() {
     // Save our event placeholder
     var $placeholder = $('#placeholder');
 
-    // What do we do when we get a message/event?
-    socket.on('event', function(msg) {
+    // Handle a new message/event?
+    socket.on('event_add', function(msg) {
         var d = $.parseJSON(msg);
-        $placeholder.append("<div>" + d.message + "</div>");
+        $placeholder.append("<div id='" + d.uid + "'>" + d.message + "</div>");
+    });
+
+    // Handle updating of event
+    socket.on('event_update', function(msg) {
+	var d = $.parseJSON(msg);
+	// update event information
+	// move to relevant category/placeholder
     });
 
     // Just update our conn_status field with the connection status
