@@ -5,9 +5,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css" media="screen" />
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.7.2.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-alert.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/event.js') }}"></script>
     <style type="text/css" media="screen">
       body { padding-top: 60px; }
+      button.close {
+        background: none repeat scroll 0 0 transparent;
+        border: 0 none;
+        cursor: pointer;
+        margin: -10px -10px 0 0;
+        padding: 0;
+      }
     </style>
   </head>
   <body>
@@ -32,7 +40,10 @@
 
             <div id="placeholder">
 	      {% for event_id, event in events.iteritems() %}
-	          <div id="{{ event.uid }}" class="well">{{ event.message }}</div>
+	          <div id="{{ event.uid }}" class="event well">
+		    <button class="close" data-dismiss="alert">&times;</button>
+		    {{ event.message }}
+		  </div>
 	      {% endfor %}
 	    </div>
 	  </div>
