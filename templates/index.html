@@ -61,7 +61,7 @@
   	    <div class="span3">
 	      <h2>{{ category }}</h2>
 
-              <div id="placeholder">
+              <div id="{{ category }}">
 	        {% for event_id, event in events.iteritems() %}
 		  {% if event.category == category %}
 		    {% include "event.html" %}
