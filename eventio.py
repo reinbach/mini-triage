@@ -28,4 +28,4 @@ class EventIOApp(BaseNamespace, BroadcastMixin):
     def on_delete(self, data):
         event_id = data.get('event_id')
         self.request.delete(event_id)
-        self.broadcast_event('event_delete', json.dumps({'uid': event_id}))
+        self.broadcast_event_not_me('event_delete', json.dumps({'uid': event_id}))
