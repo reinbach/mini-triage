@@ -1,0 +1,39 @@
+<div id="{{ event.uid }}" class="event well">
+  <button class="close" data-dismiss="alert">&times;</button>
+  <h4>{{ event.message }}</h4>
+  <br />
+  <form method="post" id="event-form" action="." class="form-horizontal">
+    <fieldset>
+      <div class="control-group">
+	<label class="control-label" for="category">Category:</label>
+	<div class="controls">
+	  <select class="input-small" name="category">
+            {% for category in categories %}
+	      <option value="{{ category }}" {% if category == event.category %}selected="selected"{% endif %}>
+	        {{ category }}
+	      </option>
+            {% endfor %}
+	  </select>
+	</div>
+      </div>
+      <div class="control-group">
+	<label class="control-label" for="category">Status:</label>
+	<div class="controls">
+	  <select class="input-small" name="status">
+            {% for status in statuses %}
+	      <option value="{{ status }}" {% if status == event.status %}selected="selected"{% endif %}>
+	        {{ status }}
+	      </option>
+            {% endfor %}
+	  </select>
+	</div>
+      </div>
+      <div class="control-group pull-right">
+	  <textarea name="comment" class="input-medium"></textarea>
+      </div>
+      <div class="control-group pull-right">
+	  <button class="btn">Update</button>
+      </div>
+    </fieldset>
+  </form>
+</div>
