@@ -74,6 +74,10 @@ class EventHandler(object):
         event.update(data)
         return event
 
+    def delete(self, event_id):
+        """Delete event and inform users"""
+        del(self.events[event_id])
+
     def subscribe(self, user):
         """User subscribes to a category"""
         self.users.add(user)
