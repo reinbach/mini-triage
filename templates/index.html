@@ -6,6 +6,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.7.2.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-alert.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap-collapse.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/event.js') }}"></script>
     <style type="text/css" media="screen">
       body { padding-top: 60px; }
@@ -15,6 +16,15 @@
         cursor: pointer;
         margin: -10px -10px 0 0;
         padding: 0;
+      }
+      form {
+        margin: 0;
+      }
+      .form-horizontal .control-group > label {
+        width: 72px;
+      }
+      .form-horizontal .controls {
+        margin-left: 90px;
       }
     </style>
   </head>
@@ -40,13 +50,26 @@
 
             <div id="placeholder">
 	      {% for event_id, event in events.iteritems() %}
-	          <div id="{{ event.uid }}" class="event well">
-		    <button class="close" data-dismiss="alert">&times;</button>
-		    {{ event.message }}
-		  </div>
+	          {% if not event.category %}
+	            {% include "event.html" %}
+		  {% endif %}
 	      {% endfor %}
 	    </div>
 	  </div>
+
+	  {% for category in categories %}
+  	    <div class="span3">
+	      <h2>{{ category }}</h2>
+
+              <div id="placeholder">
+	        {% for event_id, event in events.iteritems() %}
+		  {% if event.category == category %}
+		    {% include "event.html" %}
+		  {% endif %}
+	        {% endfor %}
+	      </div>
+	    </div>
+	  {% endfor %}
 	</div>
       </section>
     </div>

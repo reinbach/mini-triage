@@ -7,15 +7,22 @@ $(function() {
 
     // Handle a new message/event?
     socket.on('event_add', function(data) {
-        var d = $.parseJSON(data);
-        $placeholder.append(
-	    "<div id='" + d.uid +
-		"' class='event well'><button class='close' data-dismiss='alert'>&times;</button>" + d.message +
-		"</div>"
-	);
+        $placeholder.append(data);
     });
 
     // Handle updating of event
+    $(".collapse").on("hidden", function() {
+	var label_name = $(this).attr("id").replace("collapse", "label");
+	var $label = $("#" + label_name);
+	$label.text("Edit");
+	$label.removeClass("label-important");
+    });
+    $(".collapse").on("shown", function() {
+	var label_name = $(this).attr("id").replace("collapse", "label");
+	var $label = $("#" + label_name);
+	$label.text("Cancel");
+	$label.addClass("label-important");
+    });
     socket.on('event_update', function(data) {
 	var d = $.parseJSON(data);
 	// update event information

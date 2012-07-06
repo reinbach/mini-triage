@@ -2,38 +2,45 @@
   <button class="close" data-dismiss="alert">&times;</button>
   <h4>{{ event.message }}</h4>
   <br />
-  <form method="post" id="event-form" action="." class="form-horizontal">
-    <fieldset>
-      <div class="control-group">
-	<label class="control-label" for="category">Category:</label>
-	<div class="controls">
-	  <select class="input-small" name="category">
-            {% for category in categories %}
+
+  <span class="label" id="label-{{ event.uid }}" data-toggle="collapse" data-target="#collapse-{{ event.uid }}">
+      Edit
+  </span>
+  <div id="collapse-{{ event.uid }}" class="collapse">
+    <form method="post" id="event-form" action="." class="form-horizontal">
+      <fieldset>
+	<div class="control-group">
+	  <label class="control-label" for="category">Category:</label>
+	  <div class="controls">
+	    <select class="input-small" name="category">
+	      <option value="">- select -</option>
+	      {% for category in categories %}
 	      <option value="{{ category }}" {% if category == event.category %}selected="selected"{% endif %}>
 	        {{ category }}
 	      </option>
-            {% endfor %}
-	  </select>
+	      {% endfor %}
+	    </select>
+	  </div>
 	</div>
-      </div>
-      <div class="control-group">
-	<label class="control-label" for="category">Status:</label>
-	<div class="controls">
-	  <select class="input-small" name="status">
-            {% for status in statuses %}
+	<div class="control-group">
+	  <label class="control-label" for="category">Status:</label>
+	  <div class="controls">
+	    <select class="input-small" name="status">
+	      {% for status in statuses %}
 	      <option value="{{ status }}" {% if status == event.status %}selected="selected"{% endif %}>
 	        {{ status }}
 	      </option>
-            {% endfor %}
-	  </select>
+	      {% endfor %}
+	    </select>
+	  </div>
 	</div>
-      </div>
-      <div class="control-group pull-right">
+	<div class="control-group pull-right">
 	  <textarea name="comment" class="input-medium"></textarea>
-      </div>
-      <div class="control-group pull-right">
-	  <button class="btn">Update</button>
-      </div>
-    </fieldset>
-  </form>
+	</div>
+	<div class="control-group pull-right">
+	  <button class="btn btn-small">Update</button>
+	</div>
+      </fieldset>
+    </form>
+  </div>
 </div>
