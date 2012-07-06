@@ -38,8 +38,14 @@ class EventIOApp(BaseNamespace, BroadcastMixin):
         self.spawn(self.subscribe)
 
     def on_update(self, data):
-        event = self.request.update(data.get('event_id'), data)
-        self.broadcast_event_not_me('event_update', event.to_json())
+        # should have some sort of form validation in place here
+        event = self.request.update(data)
+        event_data = json.dumps({
+            'uid': event.uid,
+            'event': self.render_event(event),
+            'category': event.category
+        })
+        self.broadcast_event_not_me('event_update', event_data)
 
     def on_delete(self, data):
         event_id = data.get('event_id')
