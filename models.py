@@ -38,7 +38,8 @@ class Event(object):
 
     def add_comment(self, comment):
         """Add comment to event"""
-        self.comments.append((datetime.datetime.now(), comment))
+        date = datetime.datetime.now()
+        self.comments.append((date.strftime("%m/%d/%Y"), comment))
 
     def update(self, data):
         if type(data) == dict:
@@ -62,10 +63,13 @@ class EventHandler(object):
         self.events[new_event.uid] = new_event
         return new_event
 
-    def update(self, event_id, data):
+    def update(self, data):
         """Update specific event and inform users"""
-        event = self.events[event_id]
-        event.update(data)
+        event_data = {}
+        for field in data:
+            event_data[field.get('name')] = field.get('value')
+        event = self.events[event_data.get('event_id')]
+        event.update(event_data)
         return event
 
     def delete(self, event_id):
