@@ -26,14 +26,10 @@ $(function() {
     $(".event").alert();
     $(".event").live("closed", function() {
 	// let server know that event has been deleted
-	//test
-	console.log("delete event callback")
 	socket.emit("delete", {'event_id': $(this).attr("id")});
     });
     socket.on('event_delete', function(data) {
 	var d = $.parseJSON(data);
-	//test
-	console.log(d);
 	$("#" + d.uid).hide();
     });
 
