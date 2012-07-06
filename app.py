@@ -1,37 +1,29 @@
 import os
-import uuid
 
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, request
 from gevent import monkey
 from socketio import socketio_manage
 from socketio.server import SocketIOServer
 from werkzeug.wsgi import SharedDataMiddleware
 
 import eventio
-from models import EventHandler, User
+from models import EventHandler, CATEGORIES, STATUSES
 
 monkey.patch_all()
 
 app = Flask(__name__)
 app.debug = True
 
-users = {}
 event_handler = EventHandler()
 
 @app.route("/")
 def home():
-    """Set uuid for user and redirect to triage page"""
-    uid = uuid.uuid1()
-    user = users[u"{0}".format(uid)] = User()
-    event_handler.subscribe(user)
-    return redirect("/{0}/".format(uid))
-
-@app.route("/<uid>/")
-def triage(uid):
-    # Make sure user has uuid, otherwise redirect to home
-    if not users.get(uid, False):
-        return redirect(url_for("home"))
-    return render_template("index.html", events=event_handler.events, uid=uid)
+    return render_template(
+        "index.html",
+        events=event_handler.events,
+        categories=CATEGORIES,
+        statuses=STATUSES
+    )
 
 @app.route('/socket.io/<path:path>')
 def socketio_server(path):

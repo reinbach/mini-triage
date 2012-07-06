@@ -2,17 +2,14 @@ import datetime
 import json
 import uuid
 
-from gevent import queue
+CATEGORIES = ['Sales', 'IT', 'Accounts']
+STATUSES = ['New', 'Closed', 'Hold', 'Working']
 
 class Event(object):
     """An event
 
     Something that happens and can be categorized, status set and comments added
     """
-
-    CATEGORIES = ['Sales', 'IT', 'Customer Service']
-    STATUSES = ['New', 'Closed', 'Hold', 'Working']
-
     def __init__(self, message):
         self.uid = u"{0}".format(uuid.uuid1())
         self.message = message
@@ -23,17 +20,20 @@ class Event(object):
     def __repr__(self):
         return u"{0}".format(self.uid)
 
+    def to_json(self):
+        return json.dumps(self.__dict__)
+
     def set_id(self, event_id):
         self.uid = event_id
 
     def set_category(self, category):
         """Categorize event"""
-        if category in self.CATEGORIES:
+        if category in CATEGORIES:
             self.category = category
 
     def set_status(self, status):
         """Set status of event"""
-        if status in self.STATUSES:
+        if status in STATUSES:
             self.status = status
 
     def add_comment(self, comment):
@@ -49,16 +49,10 @@ class Event(object):
             if data.get('comment', False):
                 self.add_comment(data.get('comment'))
 
-class User(object):
-    """Users of the app"""
-    def __init__(self):
-        self.queue = queue.Queue()
-
 class EventHandler(object):
     """Wrapper for events"""
 
     def __init__(self):
-        self.users = set()
         self.events = {}
 
     def add(self, data):
@@ -77,8 +71,3 @@ class EventHandler(object):
     def delete(self, event_id):
         """Delete event and inform users"""
         del(self.events[event_id])
-
-    def subscribe(self, user):
-        """User subscribes to a category"""
-        self.users.add(user)
-
