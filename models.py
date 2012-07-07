@@ -75,3 +75,7 @@ class EventHandler(object):
     def delete(self, event_id):
         """Delete event and inform users"""
         del(self.events[event_id])
+
+    def find(self, event_id):
+        """Find event given event id"""
+        return self.events[event_id]

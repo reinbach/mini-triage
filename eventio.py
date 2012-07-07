@@ -23,15 +23,23 @@ class EventIOApp(BaseNamespace, BroadcastMixin):
         )
 
     def subscribe(self):
+        """Accept event and send onwards to subscribe user
+        """
         context = zmq.Context()
         sock = context.socket(zmq.SUB)
         sock.setsockopt(zmq.SUBSCRIBE, "")
-        sock.connect("tcp://127.0.0.1:5000")
+        sock.connect("tcp://127.0.0.1:5001")
+
+        poller = zmq.Poller()
+        poller.register(sock, zmq.POLLIN)
 
         while True:
-            msg = sock.recv()
-            event = self.request.add(msg)
-            self.broadcast_event('event_add', self.render_event(event))
+            events = dict(poller.poll(1))
+
+            if events:
+                event_id = sock.recv()
+                event = self.request.find(event_id)
+                self.emit('event_add', self.render_event(event))
             gevent.sleep(0.1)
 
     def on_stream(self, msg):
