@@ -1,3 +1,4 @@
+import json
 import unittest
 
 import models
@@ -35,7 +36,7 @@ class EventTest(unittest.TestCase):
 class EventHandlerTest(unittest.TestCase):
 
     def testEventHandlerAdd(self):
-        message = "Hello World!"
+        message = json.dumps({"message": "Hello World!"})
         event_handler = models.EventHandler()
         event_handler.add(message)
         assert len(event_handler.events) == 1
