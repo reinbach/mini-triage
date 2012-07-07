@@ -1,26 +1,16 @@
-mini-triage
+Mini-Triage
 ===========
 
 A prototype app that allows user(s) to triage events into various categories.
 
+gevent, gevent-socketio, zeromq and flask are used to stitch this together.
+
 Overview
 --------
 
-The idea is that as events are happening, user(s) can triage these events into user defined categories. Users can signup for these categories and as soon as the event is assigned to the category the user can start working on the event.
+The idea is that as events are happening, user(s) can triage these events into defined categories. All users see these categories and are able to update the events. The event updates are broadcasted to the other users. A new user arriving will get the same state as everyone else and will be able to start updating events.
 
 Updates etc on the events are automatically dispersed to the user(s) currently on the system.
-
-
-Flow
-----
-
-1. User registers.
-2. User Triages. User categorizes incoming events.
-3. User signs up for specific categories.
- -- Able to view events assigned to these categories.
- -- "Work" the events. In this app, "working" means user can change status and/or add comments to the event.
-4. Manage categories.
-
 
 To Install and Run
 ------------------
@@ -29,4 +19,4 @@ To Install and Run
     python producer.py
     python app.py
 
-Then point a browser at http://localhost:8000
+Then point multiple browsers at http://localhost:8000
